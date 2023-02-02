@@ -8,7 +8,7 @@ class LivroController {
     })
     }
 
-    static cadastrarLivros = (req, res) => {
+    static cadastrarLivro = (req, res) => {
         let livro = new livros(req.body);
 
         livro.save((err) => {
@@ -17,6 +17,18 @@ class LivroController {
                 res.status(500).send({message: `${err.message} - Falha ao cadastrar livro.`});
             } else {
                 res.statuys(201).send(livro.toJSON());
+            }
+        })
+    }
+
+    static atualizarLivro = (req, res) => {
+        const id = req.params.id;
+
+        livros.findByIdAndUpdate(id, {$set: req.body}, (err) => {
+            if(!err){
+                res.status(200).send({message: 'Livro atualizado com sucesso!'})
+            } else {
+                res.status(500).send({message: err.message})
             }
         })
     }
